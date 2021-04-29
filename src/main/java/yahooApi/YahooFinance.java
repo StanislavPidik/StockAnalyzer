@@ -18,30 +18,27 @@ public class YahooFinance {
 
     public static final String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
 
-    public String requestData(List<String> tickers) {
+    public String requestData(List<String> tickers) throws IOException {
         //TODO improve Error Handling
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
         System.out.println(query);
         URL obj = null;
-        try {
-            obj = new URL(query);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
+        obj = new URL(query);
+
+
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
-        try {
-            con = (HttpURLConnection) obj.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        con = (HttpURLConnection) obj.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
         }
+        in.close();
+
         return response.toString();
     }
 
@@ -53,7 +50,7 @@ public class YahooFinance {
         return jo;
     }
 
-    public void fetchAssetName(Asset asset) {
+    public void fetchAssetName(Asset asset) throws IOException {
         YahooFinance yahoo = new YahooFinance();
         List<String> symbols = new ArrayList<>();
         symbols.add(asset.getSymbol());
@@ -73,12 +70,12 @@ public class YahooFinance {
         return returnName;
     }
 
-    public YahooResponse getCurrentData(List<String> tickers) {
+    public YahooResponse getCurrentData(List<String> tickers) throws IOException {
         String jsonResponse = requestData(tickers);
         ObjectMapper objectMapper = new ObjectMapper();
         YahooResponse result = null;
         try {
-             result  = objectMapper.readValue(jsonResponse, YahooResponse.class);
+            result  = objectMapper.readValue(jsonResponse, YahooResponse.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
