@@ -1,5 +1,9 @@
 package stockanalyzer.ctrl;
 
+import yahoofinance.Stock;
+
+import java.io.IOException;
+
 public class Controller {
 		
 	public void process(String ticker) {
@@ -10,6 +14,18 @@ public class Controller {
 		//TODO implement methods for
 		//1) Daten laden
 		//2) Daten Analyse
+
+	}
+
+	public void stock() {
+
+		Stock stock = null;
+		try {
+			stock = yahoofinance.YahooFinance.get("AAPL");
+			stock.getHistory().forEach(System.out::println);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
