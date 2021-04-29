@@ -1,3 +1,5 @@
+//https://github.com/StanislavPidik/StockAnalyzer.git
+
 import stockanalyzer.ui.UserInterface;
 
 public class MCP {
