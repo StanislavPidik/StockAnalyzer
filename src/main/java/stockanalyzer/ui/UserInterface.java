@@ -24,8 +24,6 @@ public class UserInterface
 		} catch (IOException e) {
 			System.out.println("Connections error");
 		}
-
-		// stream ausgabe
 	}
 
 	public void getDataFromCtrl2(){
@@ -52,6 +50,24 @@ public class UserInterface
 
 	}
 	public void getDataFromCtrl4(){
+		try {
+			ctrl.processStock("SIE.DE");
+		} catch (MalformedURLException e) {
+			System.out.println("wrong URL");
+		} catch (IOException e) {
+			System.out.println("Connections error");
+		}
+
+	}
+
+	public void getDataFromCtrl5(){
+		try {
+			ctrl.processStock("^DJI");
+		} catch (MalformedURLException e) {
+			System.out.println("wrong URL");
+		} catch (IOException e) {
+			System.out.println("Connections error");
+		}
 
 	}
 
@@ -63,11 +79,11 @@ public class UserInterface
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interfacx");
 		menu.setTitel("Wählen Sie aus:");
-		menu.insert("a", "Alibaba", this::getDataFromCtrl1);
-		menu.insert("b", "Google Alphabet", this::getDataFromCtrl2);
-		menu.insert("c", "Voestalpine", this::getDataFromCtrl3);
-		menu.insert("d", "Choice User Imput:",this::getDataForCustomInput);
-		menu.insert("z", "Choice User Imput:",this::getDataFromCtrl4);
+		menu.insert("a", "Alibaba actual:", this::getDataFromCtrl1);
+		menu.insert("b", "Google Alphabet actual:", this::getDataFromCtrl2);
+		menu.insert("c", "Voestalpine actual:", this::getDataFromCtrl3);
+		menu.insert("d", "Siemens last days:",this::getDataFromCtrl4);
+		menu.insert("e", "Dow Jones last days:",this::getDataFromCtrl5);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
