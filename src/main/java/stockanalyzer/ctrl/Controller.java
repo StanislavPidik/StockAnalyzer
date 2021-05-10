@@ -1,5 +1,6 @@
 package stockanalyzer.ctrl;
 
+import stockanalyzer.downloader.Downloader;
 import yahooApi.YahooFinance;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.Result;
@@ -9,7 +10,6 @@ import yahoofinance.histquotes.Interval;
 
 
 import java.io.IOException;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -61,6 +61,10 @@ public class Controller {
 			);
 	}
 
+	public int processDownload(List<String> ticker, Downloader downloader ) throws IOException {
+		int fileCount = downloader.process(ticker);
+		return fileCount;
+	}
 
 
 	public Object getData(String searchString) {

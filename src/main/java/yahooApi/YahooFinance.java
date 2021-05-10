@@ -22,7 +22,7 @@ public class YahooFinance {
         //TODO improve Error Handling
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
-        System.out.println(query);
+        //System.out.println(query);
         URL obj = null;
 
         obj = new URL(query);

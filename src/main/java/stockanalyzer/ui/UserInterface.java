@@ -5,9 +5,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import stockanalyzer.ctrl.Controller;
+import stockanalyzer.downloader.Downloader;
+import stockanalyzer.downloader.ParallelDownloader;
+import stockanalyzer.downloader.SequentialDownloader;
 import yahooApi.beans.Result;
 
 public class UserInterface
@@ -71,6 +76,34 @@ public class UserInterface
 
 	}
 
+	public void getDataFromCtrl6(){//parallel
+		try {
+			List<String> tic = Arrays.asList("AMZN", "TSLA", "GOOG", "SIE.DE");
+			Downloader downloader = new ParallelDownloader();
+			int fileCount = ctrl.processDownload(tic, downloader);
+			System.out.printf("Parallel downloaded %d files.", fileCount);
+		} catch (MalformedURLException e) {
+			System.out.println("wrong URL");
+		} catch (IOException e) {
+			System.out.println("Connections error");
+		}
+
+	}
+
+	public void getDataFromCtrl7(){ //sequential
+		try {
+			List<String> tic = Arrays.asList("AMZN", "TSLA", "GOOG", "SIE.DE");
+			Downloader downloader = new SequentialDownloader();
+			int fileCount = ctrl.processDownload(tic, downloader);
+			System.out.printf("Sequential downloaded %d files.", fileCount);
+		} catch (MalformedURLException e) {
+			System.out.println("wrong URL");
+		} catch (IOException e) {
+			System.out.println("Connections error");
+		}
+
+	}
+
 	public void getDataForCustomInput() {
 
 	}
@@ -84,6 +117,8 @@ public class UserInterface
 		menu.insert("c", "Voestalpine actual:", this::getDataFromCtrl3);
 		menu.insert("d", "Siemens last days:",this::getDataFromCtrl4);
 		menu.insert("e", "Dow Jones last days:",this::getDataFromCtrl5);
+		menu.insert("p", "Download parallel:",this::getDataFromCtrl6);
+		menu.insert("s", "Download sequential:",this::getDataFromCtrl7);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
